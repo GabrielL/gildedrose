@@ -31,6 +31,15 @@ class GildedRoseTest {
     }
 
     @Test
+    void approvalOriginalMainLongTest() {
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outStream, true, StandardCharsets.UTF_8);
+        GildedRoseMain.gildedRoseMain(out, 20);
+        Approvals.verify(outStream);
+    }
+
+
+    @Test
     void matchLine26() {
         Item[] items = new Item[]{new Item(BACKSTAGE_PASSES, 0, 0)};
 
