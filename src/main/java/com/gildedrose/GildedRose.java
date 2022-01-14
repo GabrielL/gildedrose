@@ -17,51 +17,56 @@ class GildedRose {
     }
 
     private void updateItemQuality(final Item item) {
-        if (item.name.equals(SULFURAS_HAND_OF_RAGNAROS)) {
-            return;
-        } else {
-            if (!item.name.equals(AGED_BRIE)
-                && !item.name.equals(BACKSTAGE_PASSES)) {
-                if (item.quality > 0) {
-                    item.quality = item.quality - 1;
-                }
-            } else {
+        switch (item.name) {
+            case SULFURAS_HAND_OF_RAGNAROS:
+                return;
+            case AGED_BRIE:
                 if (item.quality < 50) {
                     item.quality = item.quality + 1;
-
-                    if (item.name.equals(BACKSTAGE_PASSES)) {
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1;
-                            }
-                        }
-
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1;
-                            }
-                        }
-                    }
                 }
-            }
-
-            item.sellIn = item.sellIn - 1;
-
-            if (item.sellIn < 0) {
-                if (!item.name.equals(AGED_BRIE)) {
-                    if (!item.name.equals(BACKSTAGE_PASSES)) {
-                        if (item.quality > 0) {
-                            item.quality = item.quality - 1;
-                        }
-                    } else {
-                        item.quality = 0;
-                    }
-                } else {
+                item.sellIn = item.sellIn - 1;
+                if (item.sellIn < 0) {
                     if (item.quality < 50) {
                         item.quality = item.quality + 1;
                     }
                 }
-            }
+                break;
+            case BACKSTAGE_PASSES:
+                if (item.quality < 50) {
+                    item.quality = item.quality + 1;
+
+                    if (item.sellIn < 11) {
+                        if (item.quality < 50) {
+                            item.quality = item.quality + 1;
+                        }
+                    }
+
+                    if (item.sellIn < 6) {
+                        if (item.quality < 50) {
+                            item.quality = item.quality + 1;
+                        }
+                    }
+                }
+
+                item.sellIn = item.sellIn - 1;
+
+                if (item.sellIn < 0) {
+                    item.quality = 0;
+                }
+                break;
+            default:
+                if (item.quality > 0) {
+                    item.quality = item.quality - 1;
+                }
+
+                item.sellIn = item.sellIn - 1;
+
+                if (item.sellIn < 0) {
+                    if (item.quality > 0) {
+                        item.quality = item.quality - 1;
+                    }
+                }
+                break;
         }
     }
 }
