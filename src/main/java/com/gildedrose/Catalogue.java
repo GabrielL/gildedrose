@@ -1,6 +1,7 @@
 package com.gildedrose;
 
 import com.gildedrose.items.BackstagePasses;
+import com.gildedrose.items.ConjuredItem;
 import com.gildedrose.items.InventoryItem;
 import com.gildedrose.items.LegendaryItem;
 import com.gildedrose.items.VintageItem;
@@ -9,6 +10,7 @@ public class Catalogue {
     public static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
     public static final String AGED_BRIE = "Aged Brie";
     public static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
+    public static final String CONJURED_MANA_CAKE = "Conjured Mana Cake";
 
     public static InventoryItem fromItem(Item item) {
         switch (item.name) {
@@ -18,6 +20,8 @@ public class Catalogue {
                 return new VintageItem(AGED_BRIE, item.sellIn, item.quality);
             case BACKSTAGE_PASSES:
                 return new BackstagePasses(BACKSTAGE_PASSES, item.sellIn, item.quality);
+            case CONJURED_MANA_CAKE:
+                return new ConjuredItem(CONJURED_MANA_CAKE, item.sellIn, item.quality);
             default:
                 return new InventoryItem(item.name, item.sellIn, item.quality);
         }

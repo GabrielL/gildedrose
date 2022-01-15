@@ -1,6 +1,7 @@
 package com.gildedrose;
 
 import com.gildedrose.items.BackstagePasses;
+import com.gildedrose.items.ConjuredItem;
 import com.gildedrose.items.InventoryItem;
 import com.gildedrose.items.LegendaryItem;
 import com.gildedrose.items.VintageItem;
@@ -65,7 +66,7 @@ public class ItemSteps {
         Assertions.assertEquals(expected, items);
     }
 
-    @Then("quality increase to {int}")
+    @Then("quality should be at {int}")
     public void qualityIncreaseToAgedQuality(int quality) {
         Assertions.assertEquals(quality, item.getQuality());
     }
@@ -78,6 +79,11 @@ public class ItemSteps {
     @Given("a Backstage Pass of quality {int} and sellIn of {int}")
     public void aBackstagePassOfQualityQualityAndSellInOfSellIn(int quality, int sellIn) {
         item = new BackstagePasses(Catalogue.BACKSTAGE_PASSES, sellIn, quality);
+    }
+
+    @Given("a Conjured Item of quality {int} and sellIn of {int}")
+    public void aConjuredItemOfQualityQualityAndSellInOfSellIn(int quality, int sellIn) {
+        item = new ConjuredItem(Catalogue.CONJURED_MANA_CAKE, sellIn, quality);
     }
 
     @Given("an Item")
@@ -113,5 +119,10 @@ public class ItemSteps {
     @Then("item is an Item")
     public void itemIsAnItem() {
         Assertions.assertInstanceOf(InventoryItem.class, item);
+    }
+
+    @Then("item is Conjured")
+    public void itemIsConjured() {
+        Assertions.assertInstanceOf(ConjuredItem.class, item);
     }
 }

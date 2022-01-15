@@ -29,3 +29,10 @@ Feature: building objects with proper behavior
     When creating it
     Then item is an Item
 
+  Scenario: Conjured mana cake is conjured
+    Given an Item
+      | name               | sellIn | quality |
+      | Conjured Mana Cake | 10     | 50      |
+    When creating it
+    Then item is Conjured
+

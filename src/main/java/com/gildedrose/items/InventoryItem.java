@@ -28,9 +28,17 @@ public class InventoryItem {
 
     int updateQuality(int sellIn) {
         if (isExpired(sellIn)) {
-            return changeQuality(quality - 2);
+            return changeQuality(quality + agingFactorAfterExpiration());
         } else {
-            return changeQuality(quality - 1);
+            return changeQuality(quality + agingFactor());
         }
+    }
+
+    int agingFactor() {
+        return -1;
+    }
+
+    int agingFactorAfterExpiration() {
+        return -2;
     }
 }

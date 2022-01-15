@@ -44,7 +44,7 @@ Feature: Item rules
     Scenario Outline: Better with time
       Given a Vintage Item of quality <quality> and sellIn of <sellIn>
       When item ages 1 days
-      Then quality increase to <agedQuality>
+      Then quality should be at <agedQuality>
       Examples:
         | quality | sellIn | agedQuality |
         | 10      | 5      | 11          |
@@ -59,7 +59,7 @@ Feature: Item rules
     Scenario Outline: Backstage passes increase in value
       Given a Backstage Pass of quality <quality> and sellIn of <sellIn>
       When item ages 1 days
-      Then quality increase to <agedQuality>
+      Then quality should be at <agedQuality>
       Examples:
         | quality | sellIn | agedQuality |
         | 10      | 12     | 11          |
@@ -69,4 +69,13 @@ Feature: Item rules
     Scenario: Backstage pass are worthless after the concert
       Given a Backstage Pass of quality 50 and sellIn of 0
       When item ages 1 days
-      Then quality increase to 0
+      Then quality should be at 0
+
+  Rule: Conjured items degrade twice as fast as normal Items
+    Scenario Outline: Conjured items degrade fast
+      Given a Conjured Item of quality <quality> and sellIn of <sellIn>
+      When item ages 1 days
+      Then quality should be at <agedQuality>
+      Examples:
+        | quality | sellIn | agedQuality |
+        | 10      | 5      | 8           |
