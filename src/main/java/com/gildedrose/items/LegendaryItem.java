@@ -1,4 +1,4 @@
-package com.gildedrose;
+package com.gildedrose.items;
 
 /**
  * Legendary items don't expire and don't lose quality
@@ -11,7 +11,7 @@ public class LegendaryItem extends InventoryItem {
     }
 
     @Override
-    InventoryItem update() {
+    public InventoryItem update() {
         return this;
     }
 }

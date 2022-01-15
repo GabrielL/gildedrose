@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import com.gildedrose.items.InventoryItem;
+import com.gildedrose.items.LegendaryItem;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

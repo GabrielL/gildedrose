@@ -1,11 +1,9 @@
-package com.gildedrose;
+package com.gildedrose.items;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @AllArgsConstructor
-@EqualsAndHashCode
 public class InventoryItem {
     static final int LOWEST_QUALITY = 0;
     static final int HIGHEST_QUALITY = 50;
@@ -14,8 +12,8 @@ public class InventoryItem {
     @Getter int sellIn;
     @Getter int quality;
 
-    InventoryItem update() {
-        return new InventoryItem(name, sellIn - 1, updateQuality(sellIn));
+    public InventoryItem update() {
+        return new InventoryItem(name, sellIn - 1, updateQuality(sellIn - 1));
     }
 
     boolean isExpired(int sellIn) {
