@@ -5,7 +5,7 @@ Feature: Legendary Items
 
     Scenario Outline: items loses their value
       Given an "<item>" with an initial quality of <quality> and a sell in date of <sellIn>
-      When a day passes
+      When 1 day passes
       Then quality should be at <newQuality> and sellIn should decreases to <newSellin>
 
       Examples:
