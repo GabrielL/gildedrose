@@ -1,5 +1,8 @@
 package com.gildedrose;
 
+/**
+ * Transitional class, goal is to remove it
+ */
 public class LegacyInventoryItem extends InventoryItem {
     public LegacyInventoryItem(final String name, final int sellIn, final int quality) {
         super(name, sellIn, quality);
@@ -26,7 +29,7 @@ public class LegacyInventoryItem extends InventoryItem {
     private static void updateItemQuality(final LegacyInventoryItem item) {
         switch (item.name) {
             case Catalogue.SULFURAS_HAND_OF_RAGNAROS:
-                return;
+                break;
             case Catalogue.AGED_BRIE:
                 age(item);
 
