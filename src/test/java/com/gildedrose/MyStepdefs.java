@@ -29,4 +29,5 @@ public class MyStepdefs {
         Assertions.assertEquals(quality, item.quality);
         Assertions.assertEquals(sellIn, item.sellIn);
     }
+
 }
