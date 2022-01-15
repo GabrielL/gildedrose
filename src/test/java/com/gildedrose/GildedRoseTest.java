@@ -8,9 +8,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
-import static com.gildedrose.GildedRose.AGED_BRIE;
-import static com.gildedrose.GildedRose.BACKSTAGE_PASSES;
-import static com.gildedrose.GildedRose.SULFURAS_HAND_OF_RAGNAROS;
+import static com.gildedrose.Catalogue.AGED_BRIE;
+import static com.gildedrose.Catalogue.BACKSTAGE_PASSES;
+import static com.gildedrose.Catalogue.SULFURAS_HAND_OF_RAGNAROS;
 
 class GildedRoseTest {
 

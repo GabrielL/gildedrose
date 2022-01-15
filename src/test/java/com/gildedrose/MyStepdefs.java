@@ -16,10 +16,12 @@ public class MyStepdefs {
 
     @When("{int} day(s) passes")
     public void aDayPasses(int days) {
-        var app = new GildedRose(new Item[]{item});
+        var items = new Item[]{item};
+        var app = new GildedRose(items);
         for (int i = 0; i < days; i++) {
             app.updateQuality();
         }
+        item = items[0];
     }
 
     @Then("quality should be at {int} and sellIn should decreases to {int}")
