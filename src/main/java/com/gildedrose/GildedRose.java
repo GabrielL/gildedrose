@@ -1,5 +1,8 @@
 package com.gildedrose;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 class GildedRose {
     public static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
     public static final String AGED_BRIE = "Aged Brie";
@@ -15,24 +18,26 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (final Item item : items) {
-            updateItemQuality(item);
-        }
+        Arrays.stream(items)
+                .map(it -> {
+                    updateItemQuality(it);
+                    return it;
+                }).collect(Collectors.toList()).toArray(items);
     }
 
-    boolean isExpired(Item item) {
+    static boolean isExpired(Item item) {
         return item.sellIn < 0;
     }
 
-    void age(Item item) {
+    static void age(Item item) {
         item.sellIn -= 1;
     }
 
-    int changeQuality(int newQuality) {
+    static int changeQuality(int newQuality) {
         return Math.min(HIGHEST_QUALITY, Math.max(LOWEST_QUALITY, newQuality));
     }
 
-    private void updateItemQuality(final Item item) {
+    private static void updateItemQuality(final Item item) {
         switch (item.name) {
             case SULFURAS_HAND_OF_RAGNAROS:
                 return;
