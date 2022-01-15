@@ -1,9 +1,11 @@
 package com.gildedrose.items;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @AllArgsConstructor
+@EqualsAndHashCode
 public class InventoryItem {
     static final int LOWEST_QUALITY = 0;
     static final int HIGHEST_QUALITY = 50;
