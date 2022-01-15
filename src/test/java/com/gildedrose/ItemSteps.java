@@ -5,7 +5,8 @@ import com.gildedrose.items.ConjuredItem;
 import com.gildedrose.items.InventoryItem;
 import com.gildedrose.items.LegendaryItem;
 import com.gildedrose.items.VintageItem;
-import io.cucumber.datatable.DataTable;
+import io.cucumber.java.DataTableType;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,6 +14,7 @@ import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ItemSteps {
@@ -20,55 +22,50 @@ public class ItemSteps {
     InventoryItem item;
     List<InventoryItem> items;
 
+    @DataTableType
+    public InventoryItem inventoryItemTransformer(Map<String, String> entry) {
+        return new InventoryItem(
+                entry.get("name"),
+                Integer.parseInt(entry.get("sellIn")),
+                Integer.parseInt(entry.get("quality"))
+        );
+    }
+
+    @DataTableType
+    public Item itemTransformer(Map<String, String> entry) {
+        return new Item(
+                entry.get("name"),
+                Integer.parseInt(entry.get("sellIn")),
+                Integer.parseInt(entry.get("quality"))
+        );
+    }
+
+    @ParameterType("Legendary|Vintage|a Backstage Pass|an Item|Conjured")
+    public Class<?> itemKind(String kindName) {
+        switch (kindName) {
+            case "Legendary":
+                return LegendaryItem.class;
+            case "Vintage":
+                return VintageItem.class;
+            case "a Backstage Pass":
+                return BackstagePasses.class;
+            case "an Item":
+                return InventoryItem.class;
+            case "Conjured":
+                return ConjuredItem.class;
+            default:
+                throw new AssertionError(String.format("itemKind %s does not exists", kindName));
+        }
+    }
+
     @Given("a Legendary Item with a selling date of {int}")
     public void aLegendaryItemWithASellingDateOf(int sellIn) {
         item = new LegendaryItem("I am Legend", sellIn);
     }
 
-    @Then("quality should be Legendary")
-    public void qualityShouldBeLegendary() {
-        Assertions.assertEquals(LegendaryItem.LEGENDARY_QUALITY, item.getQuality());
-    }
-
-    @When("item ages {int} days")
-    public void itemAgesDaysDays(int days) {
-        for (int i = 0; i < days; i++) {
-            item = item.update();
-        }
-    }
-
-    @And("selling date is still {int}")
-    public void sellingDateIsStill(int expectedSellIn) {
-        Assertions.assertEquals(expectedSellIn, item.getSellIn());
-    }
-
     @Given("an Inventory")
-    public void anInventory(DataTable dataTable) {
-        items = buildInventoryFromDataTable(dataTable);
-    }
-
-    private List<InventoryItem> buildInventoryFromDataTable(final DataTable dataTable) {
-        return dataTable.asMaps().stream()
-                .map(it -> new InventoryItem(it.get("name"), Integer.parseInt(it.get("sellIn")), Integer.parseInt(it.get("quality"))))
-                .collect(Collectors.toList());
-    }
-
-    @When("items ages in the inventory for {int} day")
-    public void aDayPasses(int days) {
-        for (int i = 0; i < days; i++) {
-            items = items.stream().map(InventoryItem::update).collect(Collectors.toList());
-        }
-    }
-
-    @Then("inventory degrades")
-    public void inventoryDegrades(DataTable dataTable) {
-        var expected = buildInventoryFromDataTable(dataTable);
-        Assertions.assertEquals(expected, items);
-    }
-
-    @Then("quality should be at {int}")
-    public void qualityIncreaseToAgedQuality(int quality) {
-        Assertions.assertEquals(quality, item.getQuality());
+    public void anInventory(List<InventoryItem> items) {
+        this.items = items;
     }
 
     @Given("a Vintage Item of quality {int} and sellIn of {int}")
@@ -87,13 +84,23 @@ public class ItemSteps {
     }
 
     @Given("an Item")
-    public void anItem(DataTable dataTable) {
-        var map = dataTable.asMaps()
-                .stream()
-                .map(it -> new Item(it.get("name"), Integer.parseInt(it.get("sellIn")), Integer.parseInt(it.get("quality"))))
-                .collect(Collectors.toList());
-        Assertions.assertEquals(1, map.size());
-        rawItem = map.get(0);
+    public void anItem(List<Item> items) {
+        Assertions.assertEquals(1, items.size());
+        rawItem = items.get(0);
+    }
+
+    @When("item ages {int} day(s)")
+    public void itemAgesDaysDays(int days) {
+        for (int i = 0; i < days; i++) {
+            item = item.update();
+        }
+    }
+
+    @When("items ages in the inventory for {int} day")
+    public void aDayPasses(int days) {
+        for (int i = 0; i < days; i++) {
+            items = items.stream().map(InventoryItem::update).collect(Collectors.toList());
+        }
     }
 
     @When("creating it")
@@ -101,28 +108,29 @@ public class ItemSteps {
         item = Catalogue.fromItem(rawItem);
     }
 
-    @Then("item is Legendary")
-    public void itemIsLegendary() {
-        Assertions.assertInstanceOf(LegendaryItem.class, item);
+
+    @Then("quality should be Legendary")
+    public void qualityShouldBeLegendary() {
+        Assertions.assertEquals(LegendaryItem.LEGENDARY_QUALITY, item.getQuality());
     }
 
-    @Then("item is Vintage")
-    public void itemIsVintage() {
-        Assertions.assertInstanceOf(VintageItem.class, item);
+    @And("selling date is still {int}")
+    public void sellingDateIsStill(int expectedSellIn) {
+        Assertions.assertEquals(expectedSellIn, item.getSellIn());
     }
 
-    @Then("item is a Backstage Pass")
-    public void itemIsABackstagePass() {
-        Assertions.assertInstanceOf(BackstagePasses.class, item);
+    @Then("quality should be at {int}")
+    public void qualityIncreaseToAgedQuality(int quality) {
+        Assertions.assertEquals(quality, item.getQuality());
     }
 
-    @Then("item is an Item")
-    public void itemIsAnItem() {
-        Assertions.assertInstanceOf(InventoryItem.class, item);
+    @Then("inventory degrades")
+    public void inventoryDegrades(List<InventoryItem> expectedItems) {
+        Assertions.assertEquals(expectedItems, items);
     }
 
-    @Then("item is Conjured")
-    public void itemIsConjured() {
-        Assertions.assertInstanceOf(ConjuredItem.class, item);
+    @Then("item is {itemKind}")
+    public void itemIsLegendary(Class<?> expectedClass) {
+        Assertions.assertInstanceOf(expectedClass, item);
     }
 }
