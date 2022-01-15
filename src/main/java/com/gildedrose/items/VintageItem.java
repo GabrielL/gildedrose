@@ -6,11 +6,12 @@ public class VintageItem extends InventoryItem {
     }
 
     @Override
-    int updateQuality(final int sellIn) {
-        if (isExpired(sellIn)) {
-            return changeQuality(quality + 2);
-        } else {
-            return changeQuality(quality + 1);
-        }
+    int agingFactor() {
+        return 1;
+    }
+
+    @Override
+    int agingFactorAfterExpiration() {
+        return 2;
     }
 }
